@@ -1,8 +1,8 @@
 //config for EC2
 
 resource "aws_key_pair" "instance_key_pair" {
-  public_key = file(var.ssh_public_key)
-  key_name = var.ssh_public_key
+  public_key = file(var.ssh_public_key_path)
+  key_name = var.ssh_public_key_name
 }
 
 resource "aws_security_group" "VPN" {
