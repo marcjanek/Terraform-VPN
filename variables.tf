@@ -16,7 +16,17 @@ variable "ssh_public_key_name" {
   default = "key"
 }
 
+variable "ssh_private_key_path" {
+  type = string
+  default = "key"
+}
+
 variable "region" {
   type = string
   default = "us-west-2"
+}
+
+variable "user" {
+  type = string
+  default = "ubuntu"
 }

@@ -64,4 +64,22 @@ resource "aws_instance" "VPN_instance" {
     aws_security_group.SSH.id,
     aws_security_group.VPN.id
   ]
+
+  connection {
+    type = "ssh"
+    host = aws_instance.VPN_instance.public_ip
+    user = var.user
+    port = 22
+    private_key = file(var.ssh_private_key_path)
+    agent = false
+  }
+  provisioner "remote-exec" {
+    inline = [
+      "sleep 10",
+      "sudo yum update -y",
+      "curl -O https://raw.githubusercontent.com/angristan/openvpn-install/master/openvpn-install.sh",
+      "chmod +x openvpn-install.sh",
+      "sudo AUTO_INSTALL=y APPROVE_IP=${aws_instance.VPN_instance.public_ip} ENDPOINT=${aws_instance.VPN_instance.public_dns} ./openvpn-install.sh",
+    ]
+  }
 }
